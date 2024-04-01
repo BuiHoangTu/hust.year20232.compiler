@@ -1,0 +1,3 @@
+[submodule "minilib"]
+	path = minilib
+	url = git@github.com:BuiHoangTu/c-minilib.git
