@@ -42,7 +42,7 @@ typedef enum
     PERIOD,
     COMMA,
     SEMICOLON,
-    ASSIGN, // TODO: havent check :=
+    ASSIGN,
     PERCENT
 
 } TokenType;
@@ -125,6 +125,12 @@ Token nextToken(LexicalStream *lexicalStream)
         token.type = EQU;
         lexicalStream->lastChar = getc(lexicalStream->source);
         break;
+    case ':':
+        if ((c = fgetc(lexicalStream->source)) == '=')
+        {
+            token.type = ASSIGN;
+            lexicalStream->lastChar = getc(lexicalStream->source);
+        }
     case '<':
         if ((c = fgetc(lexicalStream->source)) == '>')
         {
@@ -197,7 +203,7 @@ Token nextToken(LexicalStream *lexicalStream)
             while (isdigit(c = fgetc(lexicalStream->source)))
             {
                 token.number = token.number * 10 + (c - '0');
-                numLength ++;
+                numLength++;
                 // TODO: check for max number length
             }
             lexicalStream->lastChar = c;
@@ -209,6 +215,7 @@ Token nextToken(LexicalStream *lexicalStream)
             int i = 1;
             while (isalnum(c = fgetc(lexicalStream->source)) && i <= IDENT_MAX_LEN)
             {
+                // TODO: what to do when max length
                 token.id[i++] = c;
             }
             token.id[i] = '\0';
