@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 #define IDENT_MAX_LEN 20
 
@@ -168,7 +169,67 @@ Token nextToken(LexicalStream *lexicalStream)
             token.id[i] = '\0';
             lexicalStream->lastChar = c;
 
-            // TODO: check other keywords
+            //// check other keywords
+            if (strcmp("begin", token.id) == 0)
+            {
+                token.type = BEGIN;
+            }
+            else if (strcmp("end", token.id) == 0)
+            {
+                token.type = END;
+            }
+            else if (strcmp("if", token.id) == 0)
+            {
+                token.type = IF;
+            }
+            else if (strcmp("then", token.id) == 0)
+            {
+                token.type = END;
+            }
+            else if (strcmp("while", token.id) == 0)
+            {
+                token.type = WHILE;
+            }
+            else if (strcmp("do", token.id) == 0)
+            {
+                token.type = DO;
+            }
+            else if (strcmp("call", token.id) == 0)
+            {
+                token.type = CALL;
+            }
+            else if (strcmp("odd", token.id) == 0)
+            {
+                token.type = ODD;
+            }
+            else if (strcmp("to", token.id) == 0)
+            {
+                token.type = TO;
+            }
+            else if (strcmp("const", token.id) == 0)
+            {
+                token.type = CONST;
+            }
+            else if (strcmp("var", token.id) == 0)
+            {
+                token.type = VAR;
+            }
+            else if (strcmp("procedure", token.id) == 0)
+            {
+                token.type = PROCEDURE;
+            }
+            else if (strcmp("program", token.id) == 0)
+            {
+                token.type = PROGRAM;
+            }
+            else if (strcmp("else", token.id) == 0)
+            {
+                token.type = ELSE;
+            }
+            else if (strcmp("for", token.id) == 0)
+            {
+                token.type = FOR;
+            }
         }
         else
         {
