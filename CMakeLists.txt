@@ -7,3 +7,12 @@ add_subdirectory(minilib)
 include_directories(minilib)
 
 add_executable(prog main.c)
+
+# Add the target for lexical_parser.c
+add_library(lexical_parser lexical_parser.c)
+
+# Include the directory containing lexical_parser.h
+target_include_directories(prog PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+# Link the main executable with the lexical parser library
+target_link_libraries(prog PRIVATE lexical_parser)
