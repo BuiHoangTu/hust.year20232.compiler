@@ -70,6 +70,20 @@ LexicalStream *createLexicalStream(char *filePath)
     return out;
 }
 
+/// @brief free the lexical stream
+/// @param ls lexical stream
+/// @return 0 if success, else return error code of fclose(ls->source)
+int freeLexicalStream(LexicalStream *ls)
+{
+    int res = fclose(ls->source);
+    if (res != 0)
+    {
+        return res;
+    }
+    free(ls);
+    return 0;
+}
+
 Token nextToken(LexicalStream *lexicalStream)
 {
     Token token;
@@ -93,27 +107,34 @@ Token nextToken(LexicalStream *lexicalStream)
     {
     case '+':
         token.type = PLUS;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '-':
         token.type = MINUS;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '*':
         token.type = TIMES;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '/':
         token.type = SLASH;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '=':
         token.type = EQU;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '<':
         if ((c = fgetc(lexicalStream->source)) == '>')
         {
             token.type = NEQ;
+            lexicalStream->lastChar = getc(lexicalStream->source);
         }
         else if (c == '=')
         {
             token.type = LEQ;
+            lexicalStream->lastChar = getc(lexicalStream->source);
         }
         else
         {
@@ -125,6 +146,7 @@ Token nextToken(LexicalStream *lexicalStream)
         if ((c = fgetc(lexicalStream->source)) == '=')
         {
             token.type = GEQ;
+            lexicalStream->lastChar = getc(lexicalStream->source);
         }
         else
         {
@@ -134,27 +156,35 @@ Token nextToken(LexicalStream *lexicalStream)
         break;
     case '(':
         token.type = LPARENT;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case ')':
         token.type = RPARENT;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '[':
         token.type = LBRACK;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case ']':
         token.type = RBRACK;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '.':
         token.type = PERIOD;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case ',':
         token.type = COMMA;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case ';':
         token.type = SEMICOLON;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     case '%':
         token.type = PERCENT;
+        lexicalStream->lastChar = getc(lexicalStream->source);
         break;
     default:
         // Check for identifiers or numbers
