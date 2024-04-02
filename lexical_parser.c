@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define IDENT_MAX_LEN 20
 
@@ -58,6 +59,16 @@ typedef struct lexical_stream
     FILE *source;
     char lastChar;
 } LexicalStream;
+
+LexicalStream *createLexicalStream(char *filePath)
+{
+    LexicalStream *out = malloc(sizeof(LexicalStream));
+
+    out->lastChar = ' ';
+    out->source = fopen(filePath, "r");
+
+    return out;
+}
 
 Token nextToken(LexicalStream *lexicalStream)
 {
