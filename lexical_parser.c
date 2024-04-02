@@ -190,11 +190,15 @@ Token nextToken(LexicalStream *lexicalStream)
         // Check for identifiers or numbers
         if (isdigit(c))
         {
+            int numLength = 1;
+
             token.type = NUMBER;
             token.number = c - '0';
             while (isdigit(c = fgetc(lexicalStream->source)))
             {
                 token.number = token.number * 10 + (c - '0');
+                numLength ++;
+                // TODO: check for max number length
             }
             lexicalStream->lastChar = c;
         }
