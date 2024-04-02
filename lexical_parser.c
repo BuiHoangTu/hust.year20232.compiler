@@ -42,7 +42,7 @@ typedef enum
     PERIOD,
     COMMA,
     SEMICOLON,
-    ASSIGN,
+    ASSIGN, // TODO: havent check :=
     PERCENT
 
 } TokenType;
