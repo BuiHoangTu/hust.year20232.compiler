@@ -4,6 +4,8 @@
 #include <stdlib.h>
 
 #define IDENT_MAX_LEN 20
+#define MAX_NUM_LENGTH 6
+#define MAX_STR_LENGTH 20
 
 typedef enum
 {
@@ -204,7 +206,11 @@ Token nextToken(LexicalStream *lexicalStream)
             {
                 token.number = token.number * 10 + (c - '0');
                 numLength++;
-                // TODO: check for max number length
+                if (numLength >= MAX_NUM_LENGTH)
+                {
+                    token.type = NONE;
+                    break;
+                }
             }
             lexicalStream->lastChar = c;
         }
@@ -213,9 +219,13 @@ Token nextToken(LexicalStream *lexicalStream)
             token.type = IDENT;
             token.id[0] = c;
             int i = 1;
-            while (isalnum(c = fgetc(lexicalStream->source)) && i <= IDENT_MAX_LEN)
+            while (isalnum(c = fgetc(lexicalStream->source)))
             {
-                // TODO: what to do when max length
+                if (i >= IDENT_MAX_LEN)
+                {
+                    token.type = NONE;
+                    break;
+                }
                 token.id[i++] = c;
             }
             token.id[i] = '\0';
