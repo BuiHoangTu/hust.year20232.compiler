@@ -3,12 +3,14 @@ var a, b, result;
 
 procedure multiply;
 begin
-    result := a * b;
+    result := a / b;
 end;
 
 begin
     a := 2;
+    * hello
     b := 3;
     multiply;
+    write(a > 3);
     write(result);
 end.
