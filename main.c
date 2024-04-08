@@ -4,11 +4,14 @@
 int main(int argc, char const *argv[])
 {
     LexicalStream *lexicalStream = createLexicalStream("test.pl0");
-    
+
     Token token;
-    do {
+    char tokenStr[100];
+    do
+    {
         token = nextToken(lexicalStream);
-        printf("%d - %d - %s\n", token.type, token.number, token.id);
+        tokenToString_static(token, tokenStr, 99);
+        printf("%s\n", tokenStr);
     } while (token.type != NONE);
 
     freeLexicalStream(lexicalStream);

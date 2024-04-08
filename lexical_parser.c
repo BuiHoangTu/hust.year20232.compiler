@@ -49,6 +49,46 @@ typedef enum
 
 } TokenType;
 
+static const char *TOKEN_TYPE_NAME[] = {
+    "NONE",
+    "IDENT",
+    "NUMBER",
+    "BEGIN",
+    "CALL",
+    "CONST",
+    "DO",
+    "ELSE",
+    "END",
+    "FOR",
+    "IF",
+    "ODD",
+    "PROCEDURE",
+    "PROGRAM",
+    "THEN",
+    "TO",
+    "VAR",
+    "WHILE",
+    "PLUS",
+    "MINUS",
+    "TIMES",
+    "SLASH",
+    "EQU",
+    "NEQ",
+    "LSS",
+    "LEQ",
+    "GTR",
+    "GEQ",
+    "LPARENT",
+    "RPARENT",
+    "LBRACK",
+    "RBRACK",
+    "PERIOD",
+    "COMMA",
+    "SEMICOLON",
+    "ASSIGN",
+    "PERCENT",
+    "COMMENT"};
+
 typedef struct token
 {
     TokenType type;
@@ -308,4 +348,42 @@ Token nextToken(LexicalStream *lexicalStream)
     }
 
     return token;
+}
+
+/// @brief Convert token to a readable format, overflow data are truncated
+/// @param token
+/// @return string of readable format that need freeing after use
+char *tokenToString(Token token)
+{
+    int resLength = (MAX_NUM_LENGTH > MAX_STR_LENGTH ? MAX_NUM_LENGTH : MAX_STR_LENGTH) + 10;
+    char *result = malloc(resLength + 1);
+
+    tokenToString_static(token, result, resLength);
+
+    return result;
+}
+
+/// @brief Convert token to a readable format, overflow data are truncated. Result is written to des
+/// @param token
+/// @param des destination string, which must be already initialized
+/// @param desLength max length of destination
+/// @return length of returned string
+int tokenToString_static(Token token, char *des, int desLength)
+{
+    int res = 0;
+
+    switch (token.type)
+    {
+    case NUMBER:
+        res = snprintf(des, desLength, "NUMBER(%d)", token.number);
+        break;
+    case IDENT:
+        res = snprintf(des, desLength, "IDENT(%s)", token.id);
+        break;
+    default: // keywords
+        res = snprintf(des, desLength, "%s", TOKEN_TYPE_NAME[token.type]);
+        break;
+    }
+
+    return res;
 }
