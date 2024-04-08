@@ -132,6 +132,12 @@ Token nextToken(LexicalStream *lexicalStream)
         {
             token.type = ASSIGN;
             lexicalStream->lastChar = getc(lexicalStream->source);
+            break;
+        }
+        else
+        {
+            token.type = NONE;
+            break;
         }
     case '<':
         if ((c = fgetc(lexicalStream->source)) == '>')
