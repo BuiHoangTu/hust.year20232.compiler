@@ -1,0 +1,14 @@
+const MAX = 10;
+var a, b, result;
+
+procedure multiply;
+begin
+    result := a * b;
+end;
+
+begin
+    a := 2;
+    b := 3;
+    multiply;
+    write(result);
+end.
