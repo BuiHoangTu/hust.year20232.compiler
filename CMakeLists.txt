@@ -8,19 +8,13 @@ include_directories(minilib)
 
 add_executable(prog
         main.c
+
         lexical_parser.c
         lexical_parser.h
+
+        syntax_analyser.c
+        syntax_analyser.h
 )
-
-
-
-
-
-
-
-
-# Add the target for lexical_parser.c
-add_library(lexical_parser lexical_parser.c)
 
 ## Add the target for lexical_parser.c
 #add_library(lexical_parser lexical_parser.c)
