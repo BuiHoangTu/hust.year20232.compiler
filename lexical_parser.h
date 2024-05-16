@@ -102,7 +102,7 @@ typedef struct lexical_stream
     char lastChar;
 } LexicalStream;
 
-LexicalStream *createLexicalStream(char *filePath);
+LexicalStream *createLexicalStream(const char *filePath);
 
 /// @brief free the lexical stream
 /// @param ls lexical stream

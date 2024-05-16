@@ -6,7 +6,7 @@
 
 
 
-LexicalStream *createLexicalStream(char *filePath)
+LexicalStream *createLexicalStream(const char *filePath)
 {
     LexicalStream *out = malloc(sizeof(LexicalStream));
 
