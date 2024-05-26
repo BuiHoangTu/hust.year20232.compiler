@@ -12,36 +12,36 @@ void error(const char msg[]) {
     exit(1);
 }
 
-void factor() {
+void factor(LexicalStream *lexicalStream) {
 
 }
 
-void term() {
-    factor();
+void term(LexicalStream *lexicalStream) {
+    factor(lexicalStream);
 	while (token.type == TIMES || token.type == SLASH)
 	{
-		token = nextToken();
-		factor();
+		token = nextToken(lexicalStream);
+		factor(lexicalStream);
 	}
 }
 
-void expression() {
-    if (token.type == PLUS || token.type == MINUS ) token.type = nextToken();
-	term();
+void expression(LexicalStream *lexicalStream) {
+    if (token.type == PLUS || token.type == MINUS ) token.type = nextToken(lexicalStream);
+	term(lexicalStream);
 	while (token.type == PLUS || token.type == MINUS )
     {
-		token = nextToken();
-		term();
+		token = nextToken(lexicalStream);
+		term(lexicalStream);
 	}
 }
 
-void condition() {
-    expression();
+void condition(LexicalStream *lexicalStream) {
+    expression(lexicalStream);
 	if (token.type == EQU || token.type == NEQ || token.type == LSS ||   
        token.type == LEQ || token.type == GTR || token.type == GEQ)
     {
-		token = nextToken();
-		expression();
+		token = nextToken(lexicalStream);
+		expression(lexicalStream);
 	} 
     else 
     {
@@ -49,19 +49,19 @@ void condition() {
 	}
 }
 
-void statement() {
+void statement(LexicalStream *lexicalStream) {
     if (token.type == IDENT) // First statement
     {
-		token = nextToken();	//array variable ?
+		token = nextToken(lexicalStream);	//array variable ?
 
         if (token.type == LBRACK) 
         {
-            token = nextToken();
+            token = nextToken(lexicalStream);
 			expresion();
 
-            token = nextToken();
+            token = nextToken(lexicalStream);
             if (token.type == RBRACK) {
-                token = nextToken();
+                token = nextToken(lexicalStream);
             }
             else
             {
@@ -71,10 +71,10 @@ void statement() {
 
 		if(token == ASSIGN)
         {
-			token = nextToken();
+			token = nextToken(lexicalStream);
 			expresion();
 
-            token = nextToken();
+            token = nextToken(lexicalStream);
 		}
         else 
         {
@@ -83,25 +83,25 @@ void statement() {
 	} 
 	else if (token.type == CALL) // Second statement
     {
-        token = nextToken(); // assign current token
+        token = nextToken(lexicalStream); // assign current token
 
         if (token.type == IDENT) 
         {
-            token = nextToken(); // find next token
+            token = nextToken(lexicalStream); // find next token
 
             if (token.type == LPARENT) 
             {
                 do 
                 {
-                    token = nextToken();
-                    expression();
+                    token = nextToken(lexicalStream);
+                    expression(lexicalStream);
 
-                    token = nextToken();
+                    token = nextToken(lexicalStream);
                 } while (token.type == COMMA)
 
                 if (token.type == RPARENT)
                 {
-                    token = nextToken();
+                    token = nextToken(lexicalStream);
                 }
                 else 
                 {
@@ -118,15 +118,15 @@ void statement() {
     {
         do
         {
-            token = nextToken();
-            statement();
+            token = nextToken(lexicalStream);
+            statement(lexicalStream);
 
-            token = nextToken();
+            token = nextToken(lexicalStream);
         } while (token.type == SEMICOLON)
         
         if (token.type == END) 
         {
-            token = nextToken();
+            token = nextToken(lexicalStream);
         }
         else
         {
@@ -135,21 +135,21 @@ void statement() {
     }
     else if (token.type == IF) // Fourth statement
     {
-        token = nextToken();
-        condition();
+        token = nextToken(lexicalStream);
+        condition(lexicalStream);
 
         if (token.type == THEN) {
-            token = nextToken();
-            statement();
+            token = nextToken(lexicalStream);
+            statement(lexicalStream);
 
-            token = nextToken();
+            token = nextToken(lexicalStream);
 
             if (token.type == ELSE) 
             {
-                token = nextToken();
-                statement();
+                token = nextToken(lexicalStream);
+                statement(lexicalStream);
 
-                token = nextToken();
+                token = nextToken(lexicalStream);
             }
         } 
         else
@@ -159,14 +159,14 @@ void statement() {
     }
     else if (token.type == WHILE) // Fifth statement
     {
-        token = nextToken();
+        token = nextToken(lexicalStream);
         condition();
 
         if (token.type == DO) {
-            token = nextToken();
-            statement();
+            token = nextToken(lexicalStream);
+            statement(lexicalStream);
 
-            token = nextToken();
+            token = nextToken(lexicalStream);
         } 
         else
         {
@@ -175,29 +175,29 @@ void statement() {
     }
     else if (token.type == FOR) // Sixth statement
     {
-        token = nextToken();
+        token = nextToken(lexicalStream);
 
         if (token.type == IDENT) 
         {
-            token = nextToken();
+            token = nextToken(lexicalStream);
 
             if (token.type == ASSIGN) 
             {
-                token = nextToken();
-                expression();
+                token = nextToken(lexicalStream);
+                expression(lexicalStream);
 
-                token = nextToken();
+                token = nextToken(lexicalStream);
 
                 if (token.type == TO)
                 {
-                    token = nextToken();
-                    expression();
+                    token = nextToken(lexicalStream);
+                    expression(lexicalStream);
 
                     if (token.type == DO) {
-                        token = nextToken();
-                        statement();
+                        token = nextToken(lexicalStream);
+                        statement(lexicalStream);
 
-                        token = nextToken();
+                        token = nextToken(lexicalStream);
                     } 
                     else
                     {
@@ -221,10 +221,10 @@ void statement() {
     }
 }
 
-void block() {
+void block(LexicalStream *lexicalStream) {
 
 }
 
-void program() {
+void program(LexicalStream *lexicalStream) {
 
 }
