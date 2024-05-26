@@ -33,7 +33,7 @@ target_link_libraries(lexical_parser_test PRIVATE lexical_parser)
 ### test files
 foreach(file_base IN ITEMS test1 test2 test3) # test cases
     foreach(ext IN ITEMS .pl0 .expected.txt) # file extensions
-        configure_file(tests/lexical_parser/${file_base}${ext} tests/lexical_parser/${file_base}${ext} COPYONLY)
+        configure_file(tests/lexical_parser/resources/${file_base}${ext} tests/lexical_parser/${file_base}${ext} COPYONLY)
     endforeach()
 endforeach()
 ### test cases
