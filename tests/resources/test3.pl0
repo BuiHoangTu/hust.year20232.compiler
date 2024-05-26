@@ -1,0 +1,98 @@
+VAR
+    a, b, c, d, e, f, g, h, i, j: INTEGER;
+
+PROCEDURE Multiply(a: INTEGER; b: INTEGER): INTEGER;
+VAR
+    result: INTEGER;
+BEGIN
+    result := a * b;
+    RETURN result;
+END;
+
+PROCEDURE Divide(a: INTEGER; b: INTEGER): INTEGER;
+VAR
+    result: INTEGER;
+BEGIN
+    IF b <> 0 THEN
+        result := a DIV b;
+    ELSE
+        result := 0;
+    END;
+    RETURN result;
+END;
+
+PROCEDURE Power(base: INTEGER; exponent: INTEGER): INTEGER;
+VAR
+    result: INTEGER;
+    i: INTEGER;
+BEGIN
+    result := 1;
+    FOR i := 1 TO exponent DO
+        result := result * base;
+    END;
+    RETURN result;
+END;
+
+PROCEDURE Fibonacci(n: INTEGER): INTEGER;
+VAR
+    a, b, temp, i: INTEGER;
+BEGIN
+    a := 0;
+    b := 1;
+    IF n = 0 THEN
+        RETURN a;
+    ELSE IF n = 1 THEN
+        RETURN b;
+    ELSE
+        FOR i := 2 TO n DO
+            temp := a + b;
+            a := b;
+            b := temp;
+        END;
+        RETURN b;
+    END;
+END;
+
+PROCEDURE BubbleSort(VAR arr: ARRAY[1..10] OF INTEGER);
+VAR
+    i, j, temp: INTEGER;
+BEGIN
+    FOR i := 1 TO 9 DO
+        FOR j := 1 TO 10 - i DO
+            IF arr[j] > arr[j + 1] THEN
+                temp := arr[j];
+                arr[j] := arr[j + 1];
+                arr[j + 1] := temp;
+            END;
+        END;
+    END;
+END;
+
+BEGIN
+    a := 5;
+    b := 10;
+    c := Multiply(a, b);
+    d := Divide(b, a);
+    e := Power(a, b);
+    f := Fibonacci(a);
+    g := Fibonacci(b);
+    h := Fibonacci(c);
+    i := Fibonacci(d);
+    j := Fibonacci(e);
+
+    WRITE("Result of Multiply: ", c);
+    WRITE("Result of Divide: ", d);
+    WRITE("Result of Power: ", e);
+    WRITE("Result of Fibonacci(a): ", f);
+    WRITE("Result of Fibonacci(b): ", g);
+    WRITE("Result of Fibonacci(c): ", h);
+    WRITE("Result of Fibonacci(d): ", i);
+    WRITE("Result of Fibonacci(e): ", j);
+
+    BubbleSort(arr);
+    WRITE("Sorted Array: ");
+    FOR i := 1 TO 10 DO
+        WRITE(arr[i], " ");
+    END;
+    WRITE("\n");
+END.

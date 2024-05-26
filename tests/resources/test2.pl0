@@ -1,0 +1,95 @@
+const
+    max = 100,
+    min = 1;
+
+var
+    i, sum, result;
+
+procedure init;
+begin
+    i := 0;
+    sum := 0;
+    result := 0
+end;
+
+procedure calculateSum;
+begin
+    i := min;
+    while i <= max do
+    begin
+        sum := sum + i;
+        i := i + 1
+    end
+end;
+
+procedure calculateFactorial;
+var
+    n, fact;
+begin
+    n := 10; 
+    fact := 1;
+    while n > 1 do
+    begin
+        fact := fact * n;
+        n := n - 1
+    end;
+    result := fact
+end;
+
+procedure calculateFibonacci;
+var
+    a, b, temp, count;
+begin
+    a := 0;
+    b := 1;
+    count := 2;
+    while count <= 10 do
+    begin
+        temp := a + b;
+        a := b;
+        b := temp;
+        count := count + 1
+    end;
+    result := b
+end;
+
+procedure checkPrime;
+var
+    n, d;
+    isPrime;
+begin
+    n := 29;
+    isPrime := 1;
+    d := 2;
+    while d * d <= n do
+    begin
+        if n % d = 0 then
+        begin
+            isPrime := 0;
+            d := n
+        end;
+        d := d + 1
+    end;
+    if isPrime = 1 then
+        result := n
+    else
+        result := 0
+end;
+
+procedure printResults;
+begin
+    ! sum;
+    ! result
+end;
+
+begin
+    call init;
+    call calculateSum;
+    call printResults;
+    call calculateFactorial;
+    call printResults;
+    call calculateFibonacci;
+    call printResults;
+    call checkPrime;
+    call printResults
+end.
