@@ -5,6 +5,9 @@
 #include "syntax_analyser.h"
 #include "lexical_parser.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 Token token;
 
 void error(const char msg[]) {
@@ -57,7 +60,7 @@ void statement(LexicalStream *lexicalStream) {
         if (token.type == LBRACK) 
         {
             token = nextToken(lexicalStream);
-			expresion();
+			expresion(lexicalStream);
 
             token = nextToken(lexicalStream);
             if (token.type == RBRACK) {
