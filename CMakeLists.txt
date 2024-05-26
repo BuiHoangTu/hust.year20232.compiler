@@ -8,21 +8,34 @@ include_directories(minilib)
 
 add_executable(prog
         main.c
-
-        lexical_parser.c
-        lexical_parser.h
-
-        syntax_analyser.c
-        syntax_analyser.h
 )
 
-## Add the target for lexical_parser.c
-#add_library(lexical_parser lexical_parser.c)
-#
-## Include the directory containing lexical_parser.h
-#target_include_directories(prog PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-#
-## Link the main executable with the lexical parser library
-#target_link_libraries(prog PRIVATE lexical_parser)
+# Include the directory containing other source files
+target_include_directories(prog PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-configure_file(test.pl0 test.pl0 COPYONLY)
+# lexical_parser
+add_library(lexical_parser lexical_parser.c)
+target_link_libraries(prog PRIVATE lexical_parser)
+
+# syntax_analyser
+add_library(syntax_analyser syntax_analyser.c)
+target_link_libraries(prog PRIVATE syntax_analyser)
+
+
+# test
+enable_testing()
+## lexical_parser
+add_executable(lexical_parser_test tests/lexical_parser/lexical_parser_test.c)
+target_include_directories(lexical_parser_test PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(lexical_parser_test PRIVATE lexical_parser)
+### test files
+configure_file(tests/lexical_parser/test1.pl0 tests/lexical_parser/test1.pl0 COPYONLY)
+configure_file(tests/lexical_parser/test2.pl0 tests/lexical_parser/test2.pl0 COPYONLY)
+configure_file(tests/lexical_parser/test3.pl0 tests/lexical_parser/test3.pl0 COPYONLY)
+configure_file(tests/lexical_parser/test1.expected.txt tests/lexical_parser/test1.expected.txt COPYONLY)
+configure_file(tests/lexical_parser/test2.expected.txt tests/lexical_parser/test2.expected.txt COPYONLY)
+configure_file(tests/lexical_parser/test3.expected.txt tests/lexical_parser/test3.expected.txt COPYONLY)
+### test cases
+add_test(NAME lexical_parser_test1 COMMAND lexical_parser_test ${CMAKE_CURRENT_BINARY_DIR}/tests/lexical_parser/test1.pl0 ${CMAKE_CURRENT_BINARY_DIR}/tests/lexical_parser/test1.expected.txt)
+add_test(NAME lexical_parser_test2 COMMAND lexical_parser_test ${CMAKE_CURRENT_BINARY_DIR}/tests/lexical_parser/test2.pl0 ${CMAKE_CURRENT_BINARY_DIR}/tests/lexical_parser/test2.expected.txt)
+add_test(NAME lexical_parser_test3 COMMAND lexical_parser_test ${CMAKE_CURRENT_BINARY_DIR}/tests/lexical_parser/test3.pl0 ${CMAKE_CURRENT_BINARY_DIR}/tests/lexical_parser/test3.expected.txt)
