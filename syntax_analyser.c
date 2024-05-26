@@ -16,7 +16,16 @@ void error(const char msg[]) {
 }
 
 void factor(LexicalStream *lexicalStream) {
-
+    if(token.type == LPARENT){
+		token = nextToken(lexicalStream);
+		expression(lexicalStream);
+		if (token.type != RPARENT)
+		{
+			error("Missing )");
+		}
+	}else{
+		error("Missing (");
+	}
 }
 
 void term(LexicalStream *lexicalStream) {
@@ -72,7 +81,7 @@ void statement(LexicalStream *lexicalStream) {
             }
         }
 
-		if(token == ASSIGN)
+		if(token.type == ASSIGN)
         {
 			token = nextToken(lexicalStream);
 			expresion();
@@ -100,7 +109,7 @@ void statement(LexicalStream *lexicalStream) {
                     expression(lexicalStream);
 
                     token = nextToken(lexicalStream);
-                } while (token.type == COMMA)
+                } while (token.type == COMMA);
 
                 if (token.type == RPARENT)
                 {
@@ -125,7 +134,7 @@ void statement(LexicalStream *lexicalStream) {
             statement(lexicalStream);
 
             token = nextToken(lexicalStream);
-        } while (token.type == SEMICOLON)
+        } while (token.type == SEMICOLON);
         
         if (token.type == END) 
         {
@@ -229,5 +238,25 @@ void block(LexicalStream *lexicalStream) {
 }
 
 void program(LexicalStream *lexicalStream) {
+    if(token.type=PROGRAM){
+		token = nextToken(lexicalStream);
+
+		if (token.type==IDENT){
+			token = nextToken(lexicalStream);
+
+			if(token.type==SEMICOLON){
+				token = nextToken(lexicalStream);
+				block(lexicalStream);
+
+				if(token.type==PERIOD)
+					printf("Success");
+
+				else error("Missing .");
+                
+			}else error("Missing ;");
+
+		}else error("Missing program name");
+
+	}else error("Missing keyword 'Program'");
 
 }
