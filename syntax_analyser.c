@@ -163,7 +163,7 @@ void statement(LexicalStream *lexicalStream) {
     else if (token.type == WHILE) // Fifth statement
     {
         token = nextToken(lexicalStream);
-        condition();
+        condition(lexicalStream);
 
         if (token.type == DO) {
             token = nextToken(lexicalStream);
