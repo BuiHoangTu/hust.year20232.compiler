@@ -10,8 +10,9 @@
 
 Token token;
 
-void error(const char msg[]) {
+void error(const char msg[], LexicalStream *lexicalStream) {
     printf("Error : %s\n", msg);
+    printf("Line : %d\n\n", lexicalStream->line);
     exit(1);
 }
 
@@ -21,10 +22,10 @@ void factor(LexicalStream *lexicalStream) {
 		expression(lexicalStream);
 		if (token.type != RPARENT)
 		{
-			error("Missing )");
+			error("Missing )", lexicalStream);
 		}
 	}else{
-		error("Missing (");
+		error("Missing (", lexicalStream);
 	}
 }
 
@@ -38,7 +39,7 @@ void term(LexicalStream *lexicalStream) {
 }
 
 void expression(LexicalStream *lexicalStream) {
-    if (token.type == PLUS || token.type == MINUS ) token.type = nextToken(lexicalStream);
+    if (token.type == PLUS || token.type == MINUS ) token = nextToken(lexicalStream);
 	term(lexicalStream);
 	while (token.type == PLUS || token.type == MINUS )
     {
@@ -57,7 +58,7 @@ void condition(LexicalStream *lexicalStream) {
 	} 
     else 
     {
-		error("Condition: Syntax Error...");
+		error("Condition: Syntax Error...", lexicalStream);
 	}
 }
 
@@ -69,7 +70,7 @@ void statement(LexicalStream *lexicalStream) {
         if (token.type == LBRACK) 
         {
             token = nextToken(lexicalStream);
-			expresion(lexicalStream);
+			expression(lexicalStream);
 
             token = nextToken(lexicalStream);
             if (token.type == RBRACK) {
@@ -77,20 +78,20 @@ void statement(LexicalStream *lexicalStream) {
             }
             else
             {
-                error("Statement: Missing RBRACK operator in First statement...");
+                error("Statement: Missing RBRACK operator in First statement...", lexicalStream);
             }
         }
 
 		if(token.type == ASSIGN)
         {
 			token = nextToken(lexicalStream);
-			expresion();
+			expression(lexicalStream);
 
             token = nextToken(lexicalStream);
 		}
         else 
         {
-            error("Statement: Missing ASSIGN operator in First statement...");
+            error("Statement: Missing ASSIGN operator in First statement...", lexicalStream);
         }
 	} 
 	else if (token.type == CALL) // Second statement
@@ -117,13 +118,13 @@ void statement(LexicalStream *lexicalStream) {
                 }
                 else 
                 {
-                    error("Statement: Missing RPARENT operator in Second statement...");
+                    error("Statement: Missing RPARENT operator in Second statement...", lexicalStream);
                 }
             }
         }
         else
         {
-            error("Statement: Missing IDENT operator in Second statement...");
+            error("Statement: Missing IDENT operator in Second statement...", lexicalStream);
         }
     }
     else if (token.type == BEGIN) // Third statement
@@ -142,7 +143,7 @@ void statement(LexicalStream *lexicalStream) {
         }
         else
         {
-            error("Statement: Missing END operator in Third statement...");
+            error("Statement: Missing END operator in Third statement...", lexicalStream);
         }
     }
     else if (token.type == IF) // Fourth statement
@@ -166,7 +167,7 @@ void statement(LexicalStream *lexicalStream) {
         } 
         else
         {
-            error("Statement: Missing THEN operator in Fourth statement...");
+            error("Statement: Missing THEN operator in Fourth statement...", lexicalStream);
         }
     }
     else if (token.type == WHILE) // Fifth statement
@@ -182,7 +183,7 @@ void statement(LexicalStream *lexicalStream) {
         } 
         else
         {
-            error("Statement: Missing DO operator in Fifth statement...");
+            error("Statement: Missing DO operator in Fifth statement...", lexicalStream);
         }
     }
     else if (token.type == FOR) // Sixth statement
@@ -213,22 +214,22 @@ void statement(LexicalStream *lexicalStream) {
                     } 
                     else
                     {
-                        error("Statement: Missing DO operator in Sixth statement...");
+                        error("Statement: Missing DO operator in Sixth statement...", lexicalStream);
                     }
                 } 
                 else 
                 {
-                    error("Statement: Missing TO operator in Sixth statement...");
+                    error("Statement: Missing TO operator in Sixth statement...", lexicalStream);
                 }
             }
             else 
             {
-                error("Statement: Missing ASSIGN operator in Sixth statement...");
+                error("Statement: Missing ASSIGN operator in Sixth statement...", lexicalStream);
             }
         }
         else
         {
-            error("Statement: Missing IDENT operator in Sixth statement...");
+            error("Statement: Missing IDENT operator in Sixth statement...", lexicalStream);
         }
     }
 }
@@ -238,6 +239,7 @@ void block(LexicalStream *lexicalStream) {
 }
 
 void program(LexicalStream *lexicalStream) {
+    token = nextToken(lexicalStream);
     if(token.type=PROGRAM){
 		token = nextToken(lexicalStream);
 
@@ -251,12 +253,12 @@ void program(LexicalStream *lexicalStream) {
 				if(token.type==PERIOD)
 					printf("Success");
 
-				else error("Missing .");
+				else error("Missing .", lexicalStream);
                 
-			}else error("Missing ;");
+			}else error("Missing ;", lexicalStream);
 
-		}else error("Missing program name");
+		}else error("Missing program name", lexicalStream);
 
-	}else error("Missing keyword 'Program'");
+	}else error("Missing keyword 'Program'", lexicalStream);
 
 }
