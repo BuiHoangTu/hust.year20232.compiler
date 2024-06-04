@@ -12,6 +12,7 @@ LexicalStream *createLexicalStream(const char *filePath)
 
     out->lastChar = ' ';
     out->source = fopen(filePath, "r");
+    out->line = 1;
 
     return out;
 }
@@ -35,6 +36,10 @@ Token nextToken(LexicalStream *lexicalStream)
     // Skip whitespace
     while (isspace(c))
     {
+        if (c == '\n')
+        {
+            lexicalStream->line++;
+        }
         c = fgetc(lexicalStream->source);
     }
 
@@ -42,6 +47,7 @@ Token nextToken(LexicalStream *lexicalStream)
     if (c == EOF)
     {
         token.type = NONE;
+        token.number = 0;
         return token;
     }
 
@@ -78,6 +84,7 @@ Token nextToken(LexicalStream *lexicalStream)
         else
         {
             token.type = NONE;
+            token.number = lexicalStream->line;
             break;
         }
     case '<':
@@ -156,6 +163,7 @@ Token nextToken(LexicalStream *lexicalStream)
                 if (numLength >= MAX_NUM_LENGTH)
                 {
                     token.type = NONE;
+                    token.number = lexicalStream->line;
                     break;
                 }
             }
@@ -171,6 +179,7 @@ Token nextToken(LexicalStream *lexicalStream)
                 if (i >= IDENT_MAX_LEN)
                 {
                     token.type = NONE;
+                    token.number = lexicalStream->line;
                     break;
                 }
                 token.id[i++] = c;
@@ -244,6 +253,7 @@ Token nextToken(LexicalStream *lexicalStream)
         {
             // TODO: Handle unrecognized characters
             token.type = NONE;
+            token.number = lexicalStream->line;
         }
         break;
     }

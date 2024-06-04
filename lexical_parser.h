@@ -100,6 +100,7 @@ typedef struct lexical_stream
 {
     FILE *source;
     char lastChar;
+    int line;
 } LexicalStream;
 
 LexicalStream *createLexicalStream(const char *filePath);
