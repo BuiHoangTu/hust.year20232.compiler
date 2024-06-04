@@ -28,7 +28,7 @@ enable_testing()
 
 ## test files
 foreach(file_base IN ITEMS test1 test2 test3) # test cases
-    configure_file(tests/resources/${file_base}.pl0 tests/${file_base}${ext} COPYONLY)
+    configure_file(tests/resources/${file_base}.pl0 tests/${file_base}.pl0 COPYONLY)
     configure_file(tests/lexical_parser/resources/${file_base}.expected.txt tests/lexical_parser/${file_base}.expected.txt COPYONLY)
 endforeach()
 
